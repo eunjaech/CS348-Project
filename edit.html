@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Itinerary</title>
+</head>
+<body>
+    <h1>Edit Itinerary</h1>
+
+    <form method="POST">
+        <label>Trip Name:</label>
+        <input type="text" name="name" value="{{ itinerary.name }}" required>
+
+        <label>Start Date:</label>
+        <input type="date" name="start_date" value="{{ itinerary.start_date }}" required>
+
+        <label>End Date:</label>
+        <input type="date" name="end_date" value="{{ itinerary.end_date }}" required>
+
+        <label>Destination:</label>
+        <input type="text" name="destination" value="{{ itinerary.destination or '' }}">
+
+        <label>Budget:</label>
+        <input type="number" step="0.01" name="budget" value="{{ itinerary.budget if itinerary.budget is not none else '' }}">
+
+        <button type="submit">Update</button>
+    </form>
+
+    <a href="/">Back to Home</a>
+</body>
+</html>
