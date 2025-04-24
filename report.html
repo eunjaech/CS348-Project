@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Travel Report</title>
+</head>
+<body>
+    <h1>Travel Report</h1>
+
+    <!-- Filter Form -->
+    <form method="GET" action="{{ url_for('report') }}">
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" value="{{ request.args.get('start_date', '') }}">
+        
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date" value="{{ request.args.get('end_date', '') }}">
+
+        <button type="submit">Filter</button>
+    </form>
+
+    <hr>
+
+    <!-- Statistics -->
+    <p><strong>Total trips:</strong> {{ total_trips }}</p>
+    <p><strong>Average trip duration:</strong> {{ avg_duration | round(2) if avg_duration else 'N/A' }} days</p>
+    <p><strong>Average budget:</strong> ${{ avg_budget | round(2) if avg_budget else 'N/A' }}</p>
+
+    <!-- Itinerary Table -->
+    {% if itineraries %}
+        <h3>Matching Itineraries</h3>
+        <table border="1" cellpadding="5">
+            <tr>
+                <th>Name</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Destination</th>
+                <th>Budget</th>
+            </tr>
+            {% for trip in itineraries %}
+                <tr>
+                    <td>{{ trip.name }}</td>
+                    <td>{{ trip.start_date }}</td>
+                    <td>{{ trip.end_date }}</td>
+                    <td>{{ trip.destination or 'N/A' }}</td>
+                    <td>${{ trip.budget if trip.budget is not none else 'N/A' }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No matching itineraries.</p>
+    {% endif %}
+
+    <br><a href="/">Back to Home</a>
+</body>
+</html>
