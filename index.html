@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Travel Planner</title>
+</head>
+<body>
+    <h1>Your Travel Planner</h1>
+
+    <!-- Add Form -->
+    <form action="/add" method="POST" style="display:inline;">
+        <input type="text" name="name" placeholder="Trip Name" required>
+        <input type="date" name="start_date" required>
+        <input type="date" name="end_date" required>
+
+        <label>Destination:</label>
+        <input type="text" name="destination" placeholder="e.g. Paris">
+
+        <label>Budget:</label>
+        <input type="number" name="budget" step="0.01" placeholder="e.g. 1500.00">
+
+        <button type="submit">Add Itinerary</button>
+        
+    </form>
+
+    <!-- Logout -->
+    <a href="/logout" style="margin-left: 20px;">
+        <button type="button">Logout</button>
+    </a>
+    <a href="/report" style="margin-left: 10px;">
+        <button type="button">View Report</button>
+    </a>
+    
+
+    <!-- Itinerary List -->
+    <h2>Your Itineraries:</h2>
+    {% if itineraries %}
+        <ul>
+        {% for itinerary in itineraries %}
+            <li>
+                <strong>{{ itinerary.name }}</strong>
+                ({{ itinerary.start_date }} - {{ itinerary.end_date }})
+                {% if itinerary.destination %} → {{ itinerary.destination }}{% endif %}
+                {% if itinerary.budget is not none %} | Budget: ${{ itinerary.budget }}{% endif %}
+                <a href="/edit/{{ itinerary.id }}">Edit</a>
+                <form action="/delete/{{ itinerary.id }}" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No itineraries found.</p>
+    {% endif %}
+</body>
+</html>
